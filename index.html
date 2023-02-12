@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ô Canada</title>
+  <meta name="description" content="Canada's most unique names">
+  <meta property="og:title" content="Ô Canada" />
+  <meta property="og:description" content="Canada's most unique names" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ocanada.jeanloup.me/" />
+  <meta property="og:image" content="https://em-content.zobj.net/thumbs/120/twitter/322/maple-leaf_1f341.png" />
+  <link rel='icon' href="https://em-content.zobj.net/thumbs/120/twitter/322/maple-leaf_1f341.png" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      display: grid;
+      background: #ee5253;
+      color: #ffffff;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Georgia,Times,Times New Roman,serif;
+      font-style: italic;
+    }
+    main {
+      width: 720px;
+      margin: auto;
+      padding: 1em;
+    }
+    h1, h2 {
+      word-break: normal;
+    }
+    h1 {
+      font-size: 3rem;
+      margin: 0 0 .5em 0;
+      color: #ffffff;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin: 0 0 2em 0;
+    }
+    button {
+      background: #ff6b6b;
+      color: #ffffff;
+      border: 1px solid transparent;
+      padding: .5em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 1em 0 0;
+      max-width: 300px;
+      font-size: 1.3rem;
+    }
+    #actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    #feedback {
+      opacity: 0;
+      transition: visibility 0s, opacity 0.5s linear;
+    }
+    #feedback.visible {
+      opacity: 1;
+    }
+    @media (max-width: 720px) {
+      main {
+        width: 100%;
+      }
+      #actions {
+        flex-direction: column;
+      }
+      button {
+        margin: 0 0 1em 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 data-placeholder="Place" id="city-name">Place</h1>
+    <h2 id="city-location">Holder</h2>
+    <section id="actions">
+      <button id="city-fetch">more 🍁</button>
+      <button id="city-share">share 📋</button>
+      <span id="feedback">✔️ copied to clipboard</span>
+    </section>
+  </main>
+</body>
+<script>
+  const cityData = [
+    {id: '0', name: 'Drinkwater', province: 'Saskatchewan'},
+    {id: '1', name: 'Wynot', province: 'Saskatchewan'},
+    {id: '2', name: 'Perdue', province: 'Saskatchewan'},
+    {id: '3', name: 'Livelong', province: 'Saskatchewan'},
+    {id: '4', name: 'Superb', province: 'Saskatchewan'},
+    {id: '5', name: 'Smiley', province: 'Saskatchewan'},
+    {id: '6', name: 'Beech beach', province: 'Ontario'},
+    {id: '7', name: 'Frogmore', province: 'Ontario'},
+    {id: '8', name: 'Moneymore', province: 'Ontario'},
+    {id: '9', name: 'Peekaboo Point', province: 'Ontario'},
+    {id: '10', name: 'Otterville', province: 'Ontario'},
+    {id: '11', name: 'Cheddar', province: 'Ontario'},
+    {id: '12', name: 'Trou-à-Pépette', province: 'Québec'},
+    {id: '13', name: 'La Tarte', province: 'Québec'},
+    {id: '14', name: 'Le Petit-Deuxième', province: 'Québec'},
+    {id: '15', name: 'Mayo', province: 'Québec'},
+    {id: '16', name: 'Le Trou-à-Balle', province: 'Québec'},
+    {id: '17', name: 'Saint-Louis-du-Ha! Ha!', province: 'Québec'},
+    {id: '18', name: 'Cereal', province: 'Alberta'},
+    {id: '19', name: 'Sexsmith', province: 'Alberta'},
+    {id: '20', name: 'Makepeace', province: 'Alberta'},
+    {id: '21', name: 'Big Coulée', province: 'Alberta'},
+    {id: '22', name: 'Come By Chance', province: 'Newfoundland and Labrador'},
+    {id: '23', name: 'Dildo', province: 'Newfoundland and Labrador'},
+    {id: '24', name: 'Blow Me Down', province: 'Newfoundland and Labrador'},
+    {id: '25', name: 'La Poile', province: 'Newfoundland and Labrado'},
+    {id: '26', name: 'Sober Island', province: 'Nova Scotia'},
+    {id: '27', name: 'Framboise', province: 'Nova Scotia'},
+    {id: '28', name: 'Crapaud', province: 'Prince Edward Island'},
+    {id: '29', name: 'La Suce', province: 'New Brunswick'},
+  ];
+
+  function generateRandomKey() {
+    const randomKey = Math.floor(Math.random() * cityData.length);
+    if(knownKeys.has(randomKey)) {
+      return generateRandomKey();
+    } else {
+      knownKeys.add(randomKey);
+      return randomKey;
+    }
+  }
+
+  function getRandomCity() {
+    const randomKey = generateRandomKey();
+    const {id, name, province} = cityData[randomKey];
+
+    // append key to URL
+    window.location.hash = id;
+
+    cityName.innerHTML = name;
+    cityName.setAttribute('data-placeholder', name);
+    cityLocation.innerHTML = province;
+  }
+
+  const cityName = document.querySelector('#city-name');
+  const cityLocation = document.querySelector('#city-location');
+  const cityFetch = document.querySelector('#city-fetch');
+  const cityShare = document.querySelector('#city-share');
+  const feedback = document.querySelector('#feedback');
+  const knownKeys = new Set();
+
+  cityFetch.addEventListener('click', (function() {
+    if(knownKeys.size === cityData.length) {
+      // restart
+      knownKeys.clear();
+    };
+
+    getRandomCity();
+  }));
+
+  cityShare.addEventListener('click', (async function() {
+    await navigator.clipboard.writeText(window.location.href);
+
+    feedback.className = 'visible';
+    setTimeout(function(){
+      feedback.className = feedback.className.replace('visible', '');
+    }, 1000);
+  }));
+
+  document.addEventListener('DOMContentLoaded', () => {
+    getRandomCity();
+  });
+</script>
+</html>
