@@ -83,8 +83,8 @@
 </head>
 <body>
   <main>
-    <h1 data-placeholder="Place" id="city-name">Place</h1>
-    <h2 id="city-location">Holder</h2>
+    <h1 data-placeholder="Place" id="city-name">Placeholder</h1>
+    <h2 id="city-location">Placeholder</h2>
     <section id="actions">
       <button id="city-fetch">more 🍁</button>
       <button id="city-share">share 📋</button>
@@ -136,9 +136,9 @@
     }
   }
 
-  function getRandomCity() {
-    const randomKey = generateRandomKey();
-    const {id, name, province} = cityData[randomKey];
+  function showCity(city) {
+    const key = city ? city : generateRandomKey();
+    const {id, name, province} = cityData[key];
 
     // append key to URL
     window.location.hash = id;
@@ -161,7 +161,7 @@
       knownKeys.clear();
     };
 
-    getRandomCity();
+    showCity();
   }));
 
   cityShare.addEventListener('click', (async function() {
@@ -174,7 +174,8 @@
   }));
 
   document.addEventListener('DOMContentLoaded', () => {
-    getRandomCity();
+    const existingKey = parseInt(window.location.hash.substring(1));
+    showCity(existingKey);
   });
 </script>
 </html>
